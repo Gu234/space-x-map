@@ -1,24 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { createApolloFetch } from 'apollo-fetch';
+
+const uri = 'https://api.spacex.land/graphql/';
+const apolloFetch = createApolloFetch({ uri });
+
+const query = `{
+  launchpads {
+    id
+    location {
+      latitude
+      longitude
+      name
+      region
+    }
+  }
+}`
+apolloFetch({ query }) //all apolloFetch arguments are optional
+  .then(result => {
+    const { data, errors, extensions } = result;
+    console.log(data);
+
+    //GraphQL errors and extensions are optional
+  })
+
+  .catch(error => {
+    //respond to a network error
+  });
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
     </div>
   );
 }
